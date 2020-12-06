@@ -18,6 +18,11 @@ namespace RpiSmartMeter.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((_, config) =>
+                {
+                    config.AddJsonFile($"appsettings.local.json", optional: true);
+                    config.AddEnvironmentVariables();
+                })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
