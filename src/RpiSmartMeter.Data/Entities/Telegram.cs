@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using RpiSmartMeter.Data.Enums;
 
-namespace RpiSmartMeter.Data.Models
+namespace RpiSmartMeter.Data.Entities
 {
     public class Telegram : EntityBase
     {

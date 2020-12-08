@@ -25,7 +25,7 @@ namespace RpiSmartMeter.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // Setup dependency injection
-            services.ConfigureDataServices()
+            services.ConfigureDataServices(Configuration["SmartMeterApi:ConnectionString"])
                 .ConfigureApplicationServices()
                 .ConfigureApiServices();
 

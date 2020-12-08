@@ -2,7 +2,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace RpiSmartMeter.Data.Models
+namespace RpiSmartMeter.Data.Entities
 {
     public abstract class EntityBase
     {
