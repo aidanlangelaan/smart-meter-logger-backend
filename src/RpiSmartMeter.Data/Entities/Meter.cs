@@ -15,8 +15,8 @@ namespace RpiSmartMeter.Data.Entities
         public double DsmrVersion { get; set; }
 
         // Relations
-        public virtual List<Telegram> Telegrams { get; set; }
+        public List<Telegram> Telegrams { get; set; }
 
-        public virtual List<PowerFailure> PowerFailures { get; set; }
+        public List<PowerFailure> PowerFailures { get; set; }
     }
 }

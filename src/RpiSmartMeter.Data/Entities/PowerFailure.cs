@@ -20,6 +20,6 @@ namespace RpiSmartMeter.Data.Entities
 
         // Foreign keys
         [ForeignKey("MeterId")]
-        public virtual Meter Meter { get; set; }
+        public Meter Meter { get; set; }
     }
 }
