@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using System.Reflection;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -25,11 +26,13 @@ namespace RpiSmartMeter.Api
         public void ConfigureServices(IServiceCollection services)
         {
             // Setup dependency injection
-            services.ConfigureDataServices(Configuration["SmartMeterApi:ConnectionString"])
+            services.ConfigureDataServices(Configuration["ConnectionStrings:SmartMeterContext"])
                 .ConfigureApplicationServices()
                 .ConfigureApiServices();
 
             services.AddControllers();
+
+            services.AddAutoMapper(typeof(Startup));
 
             AddSwagger(services);
 
@@ -72,8 +75,8 @@ namespace RpiSmartMeter.Api
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Intershoot API",
-                    Description = "Web API for international airgun competition Intershoot.",
+                    Title = "Raspberrypi Smartmeter Logger API",
+                    Description = "Web API for registering and displaying the logs sent by the Raspberrypi Smartmeter Logger.",
                     Contact = new OpenApiContact
                     {
                         Name = "Aidan Langelaan",

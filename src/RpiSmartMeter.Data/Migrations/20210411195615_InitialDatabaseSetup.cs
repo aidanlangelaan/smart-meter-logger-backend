@@ -17,7 +17,7 @@ namespace RpiSmartMeter.Data.Migrations
                     UpdatedOnAt = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
                     RowVersion = table.Column<byte[]>(type: "timestamp", nullable: false),
                     SerialNumber = table.Column<string>(type: "varchar(255)", nullable: false),
-                    DsmrVersion = table.Column<double>(type: "float", nullable: false)
+                    DeviceType = table.Column<byte>(type: "tinyint", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -25,31 +25,7 @@ namespace RpiSmartMeter.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "PowerFailures",
-                columns: table => new
-                {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    CreatedOnAt = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
-                    UpdatedOnAt = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
-                    RowVersion = table.Column<byte[]>(type: "timestamp", nullable: false),
-                    MeterId = table.Column<int>(type: "int", nullable: false),
-                    Timestamp = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
-                    DurationInSeconds = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_PowerFailures", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_PowerFailures_Meters_MeterId",
-                        column: x => x.MeterId,
-                        principalTable: "Meters",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Telegrams",
+                name: "ElectricityUsages",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
@@ -66,24 +42,37 @@ namespace RpiSmartMeter.Data.Migrations
                     TariffIndicator = table.Column<byte>(type: "tinyint", nullable: false),
                     ActualDeliveryKw = table.Column<double>(type: "float", nullable: false),
                     ActualBackdeliveryKw = table.Column<double>(type: "float", nullable: false),
-                    NrPowerfailures = table.Column<int>(type: "int", nullable: false),
-                    NrPowerfailuresLong = table.Column<int>(type: "int", nullable: false),
-                    NrVoltageSagsL1 = table.Column<int>(type: "int", nullable: false),
-                    NrVoltageSwellsL1 = table.Column<int>(type: "int", nullable: false),
-                    VoltageL1V = table.Column<double>(type: "float", nullable: false),
-                    CurrentL1A = table.Column<double>(type: "float", nullable: false),
-                    ActLowerL1Kw = table.Column<double>(type: "float", nullable: false),
-                    ActLowerBackdeliveryL1Kw = table.Column<double>(type: "float", nullable: false),
-                    TextMessage = table.Column<string>(type: "varchar(255)", nullable: true),
-                    Mbus1DeviceType = table.Column<byte>(type: "tinyint", nullable: false),
-                    Mbus1MeterId = table.Column<string>(type: "varchar(255)", nullable: true),
-                    Mbus1Value = table.Column<string>(type: "varchar(255)", nullable: true)
+                    TextMessage = table.Column<string>(type: "varchar(255)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Telegrams", x => x.Id);
+                    table.PrimaryKey("PK_ElectricityUsages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Telegrams_Meters_MeterId",
+                        name: "FK_ElectricityUsages_Meters_MeterId",
+                        column: x => x.MeterId,
+                        principalTable: "Meters",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "GasUsages",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    CreatedOnAt = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
+                    UpdatedOnAt = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
+                    RowVersion = table.Column<byte[]>(type: "timestamp", nullable: false),
+                    Timestamp = table.Column<DateTime>(type: "datetime2(7)", nullable: false),
+                    MeterId = table.Column<int>(type: "int", nullable: false),
+                    TotalDelivery = table.Column<string>(type: "varchar(255)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GasUsages", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_GasUsages_Meters_MeterId",
                         column: x => x.MeterId,
                         principalTable: "Meters",
                         principalColumn: "Id",
@@ -91,23 +80,23 @@ namespace RpiSmartMeter.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_PowerFailures_MeterId",
-                table: "PowerFailures",
+                name: "IX_ElectricityUsages_MeterId",
+                table: "ElectricityUsages",
                 column: "MeterId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Telegrams_MeterId",
-                table: "Telegrams",
+                name: "IX_GasUsages_MeterId",
+                table: "GasUsages",
                 column: "MeterId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "PowerFailures");
+                name: "ElectricityUsages");
 
             migrationBuilder.DropTable(
-                name: "Telegrams");
+                name: "GasUsages");
 
             migrationBuilder.DropTable(
                 name: "Meters");

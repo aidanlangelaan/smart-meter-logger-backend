@@ -5,7 +5,7 @@ using RpiSmartMeter.Data.Enums;
 
 namespace RpiSmartMeter.Data.Entities
 {
-    public class Telegram : EntityBase
+    public class ElectricityUsage : EntityBase
     {
         [Required]
         [Column(TypeName = "datetime2(7)")]
@@ -43,45 +43,9 @@ namespace RpiSmartMeter.Data.Entities
         [Column(TypeName = "float")]
         public double ActualBackdeliveryKw { get; set; }
 
-        [Required]
-        [Column(TypeName = "int")]
-        public int NrPowerfailures { get; set; }
-
-        [Required]
-        [Column(TypeName = "int")]
-        public int NrPowerfailuresLong { get; set; }
-
-        //public string PowerfailureLog { get; set; }
-
-        [Column(TypeName = "int")]
-        public int NrVoltageSagsL1 { get; set; }
-
-        [Column(TypeName = "int")]
-        public int NrVoltageSwellsL1 { get; set; }
-
-        [Column(TypeName = "float")]
-        public double VoltageL1V { get; set; }
-
-        [Column(TypeName = "float")]
-        public double CurrentL1A { get; set; }
-
-        [Column(TypeName = "float")]
-        public double ActLowerL1Kw { get; set; }
-
-        [Column(TypeName = "float")]
-        public double ActLowerBackdeliveryL1Kw { get; set; }
-
         [Column(TypeName = "varchar(255)")]
         public string TextMessage { get; set; }
 
-        [Column(TypeName = "tinyint")]
-        public MeterType Mbus1DeviceType { get; set; }
-
-        [Column(TypeName = "varchar(255)")]
-        public string Mbus1MeterId { get; set; }
-
-        [Column(TypeName = "varchar(255)")]
-        public string Mbus1Value { get; set; }
 
         // Foreign keys
         [ForeignKey("MeterId")]

@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using RpiSmartMeter.Data.Enums;
 
 namespace RpiSmartMeter.Data.Entities
 {
@@ -10,13 +11,12 @@ namespace RpiSmartMeter.Data.Entities
         [Column(TypeName = "varchar(255)")]
         public string SerialNumber { get; set; }
 
-        [Required]
-        [Column(TypeName = "float")]
-        public double DsmrVersion { get; set; }
+        [Column(TypeName = "tinyint")]
+        public MeterType DeviceType { get; set; }
 
         // Relations
-        public List<Telegram> Telegrams { get; set; }
+        public List<ElectricityUsage> ElectricityUsages { get; set; }
 
-        public List<PowerFailure> PowerFailures { get; set; }
+        public List<GasUsage> GasUsages { get; set; }
     }
 }

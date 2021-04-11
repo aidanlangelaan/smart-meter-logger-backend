@@ -19,80 +19,12 @@ namespace RpiSmartMeter.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("RpiSmartMeter.Data.Entities.Meter", b =>
+            modelBuilder.Entity("RpiSmartMeter.Data.Entities.ElectricityUsage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOnAt")
-                        .HasColumnType("datetime2(7)");
-
-                    b.Property<double>("DsmrVersion")
-                        .HasColumnType("float");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsRequired()
-                        .HasColumnType("timestamp");
-
-                    b.Property<string>("SerialNumber")
-                        .IsRequired()
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTime>("UpdatedOnAt")
-                        .HasColumnType("datetime2(7)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Meters");
-                });
-
-            modelBuilder.Entity("RpiSmartMeter.Data.Entities.PowerFailure", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<DateTime>("CreatedOnAt")
-                        .HasColumnType("datetime2(7)");
-
-                    b.Property<int>("DurationInSeconds")
-                        .HasColumnType("int");
-
-                    b.Property<int>("MeterId")
-                        .HasColumnType("int");
-
-                    b.Property<byte[]>("RowVersion")
-                        .IsRequired()
-                        .HasColumnType("timestamp");
-
-                    b.Property<DateTime>("Timestamp")
-                        .HasColumnType("datetime2(7)");
-
-                    b.Property<DateTime>("UpdatedOnAt")
-                        .HasColumnType("datetime2(7)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("MeterId");
-
-                    b.ToTable("PowerFailures");
-                });
-
-            modelBuilder.Entity("RpiSmartMeter.Data.Entities.Telegram", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<double>("ActLowerBackdeliveryL1Kw")
-                        .HasColumnType("float");
-
-                    b.Property<double>("ActLowerL1Kw")
-                        .HasColumnType("float");
 
                     b.Property<double>("ActualBackdeliveryKw")
                         .HasColumnType("float");
@@ -103,31 +35,7 @@ namespace RpiSmartMeter.Data.Migrations
                     b.Property<DateTime>("CreatedOnAt")
                         .HasColumnType("datetime2(7)");
 
-                    b.Property<double>("CurrentL1A")
-                        .HasColumnType("float");
-
-                    b.Property<byte>("Mbus1DeviceType")
-                        .HasColumnType("tinyint");
-
-                    b.Property<string>("Mbus1MeterId")
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<string>("Mbus1Value")
-                        .HasColumnType("varchar(255)");
-
                     b.Property<int>("MeterId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NrPowerfailures")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NrPowerfailuresLong")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NrVoltageSagsL1")
-                        .HasColumnType("int");
-
-                    b.Property<int>("NrVoltageSwellsL1")
                         .HasColumnType("int");
 
                     b.Property<byte[]>("RowVersion")
@@ -158,29 +66,88 @@ namespace RpiSmartMeter.Data.Migrations
                     b.Property<DateTime>("UpdatedOnAt")
                         .HasColumnType("datetime2(7)");
 
-                    b.Property<double>("VoltageL1V")
-                        .HasColumnType("float");
+                    b.HasKey("Id");
+
+                    b.HasIndex("MeterId");
+
+                    b.ToTable("ElectricityUsages");
+                });
+
+            modelBuilder.Entity("RpiSmartMeter.Data.Entities.GasUsage", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOnAt")
+                        .HasColumnType("datetime2(7)");
+
+                    b.Property<int>("MeterId")
+                        .HasColumnType("int");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsRequired()
+                        .HasColumnType("timestamp");
+
+                    b.Property<DateTime>("Timestamp")
+                        .HasColumnType("datetime2(7)");
+
+                    b.Property<string>("TotalDelivery")
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("UpdatedOnAt")
+                        .HasColumnType("datetime2(7)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("MeterId");
 
-                    b.ToTable("Telegrams");
+                    b.ToTable("GasUsages");
                 });
 
-            modelBuilder.Entity("RpiSmartMeter.Data.Entities.PowerFailure", b =>
+            modelBuilder.Entity("RpiSmartMeter.Data.Entities.Meter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("CreatedOnAt")
+                        .HasColumnType("datetime2(7)");
+
+                    b.Property<byte>("DeviceType")
+                        .HasColumnType("tinyint");
+
+                    b.Property<byte[]>("RowVersion")
+                        .IsRequired()
+                        .HasColumnType("timestamp");
+
+                    b.Property<string>("SerialNumber")
+                        .IsRequired()
+                        .HasColumnType("varchar(255)");
+
+                    b.Property<DateTime>("UpdatedOnAt")
+                        .HasColumnType("datetime2(7)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Meters");
+                });
+
+            modelBuilder.Entity("RpiSmartMeter.Data.Entities.ElectricityUsage", b =>
                 {
                     b.HasOne("RpiSmartMeter.Data.Entities.Meter", "Meter")
-                        .WithMany("PowerFailures")
+                        .WithMany("ElectricityUsages")
                         .HasForeignKey("MeterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("RpiSmartMeter.Data.Entities.Telegram", b =>
+            modelBuilder.Entity("RpiSmartMeter.Data.Entities.GasUsage", b =>
                 {
                     b.HasOne("RpiSmartMeter.Data.Entities.Meter", "Meter")
-                        .WithMany("Telegrams")
+                        .WithMany("GasUsages")
                         .HasForeignKey("MeterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
