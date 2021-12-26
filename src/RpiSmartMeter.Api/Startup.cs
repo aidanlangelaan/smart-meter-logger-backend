@@ -74,7 +74,7 @@ namespace RpiSmartMeter.Api
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Raspberrypi Smartmeter Logger API",
+                    Title = "Raspberrypi Smartmeter Reader API",
                     Description = "Web API for registering and displaying the logs sent by the Raspberrypi Smartmeter Logger.",
                     Contact = new OpenApiContact
                     {
