@@ -1,23 +1,23 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
-using RpiSmartMeter.Services.Interfaces;
-using RpiSmartMeter.Services.Logger.Models;
+using RpiSmartMeter.Business.Interfaces;
+using RpiSmartMeter.Business.Models;
 
 namespace RpiSmartMeter.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LoggerController : ControllerBase
+    public class UsageController : ControllerBase
     {
-        private readonly ILoggerService _loggerService;
+        private readonly IUsageService _loggerService;
 
-        public LoggerController(ILoggerService loggerService)
+        public UsageController(IUsageService loggerService)
         {
             _loggerService = loggerService;
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateUsage(CreateUsageModel model)
+        public async Task<IActionResult> CreateUsage(CreateUsageDTO model)
         {
             var result = await _loggerService.CreateUsage(model);
             return Ok(result);

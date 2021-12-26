@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace RpiSmartMeter.Services.Logger.Models
+namespace RpiSmartMeter.Business.Models
 {
-    public class CreateUsageModel
+    public class CreateUsageDTO
     {
 
     }

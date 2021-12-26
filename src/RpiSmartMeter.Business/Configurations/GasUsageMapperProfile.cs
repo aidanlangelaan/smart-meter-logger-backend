@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 
-namespace RpiSmartMeter.Services.configurations
+namespace RpiSmartMeter.Business.configurations
 {
     public class GasUsageMapperProfile : Profile
     {

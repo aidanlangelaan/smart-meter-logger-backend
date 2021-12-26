@@ -1,13 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30114.105
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpiSmartMeter.Api", "RpiSmartMeter.Api\RpiSmartMeter.Api.csproj", "{56B990BA-E935-4BE5-BAF4-1EDE99327667}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RpiSmartMeter.Data", "RpiSmartMeter.Data\RpiSmartMeter.Data.csproj", "{C7EF7481-EA72-496F-9053-F0A6474EB22C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpiSmartMeter.Data", "RpiSmartMeter.Data\RpiSmartMeter.Data.csproj", "{C7EF7481-EA72-496F-9053-F0A6474EB22C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RpiSmartMeter.Services", "RpiSmartMeter.Services\RpiSmartMeter.Services.csproj", "{89DD7415-429B-432F-A3B8-520610F2F64B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RpiSmartMeter.Business", "RpiSmartMeter.Business\RpiSmartMeter.Business.csproj", "{89DD7415-429B-432F-A3B8-520610F2F64B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
