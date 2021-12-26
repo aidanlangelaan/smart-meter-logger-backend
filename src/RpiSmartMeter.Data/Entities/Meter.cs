@@ -5,7 +5,7 @@ using RpiSmartMeter.Data.Enums;
 
 namespace RpiSmartMeter.Data.Entities
 {
-    public class Meter : EntityBase
+    public class Meter : AuditableEntity
     {
         [Required]
         [Column(TypeName = "varchar(255)")]

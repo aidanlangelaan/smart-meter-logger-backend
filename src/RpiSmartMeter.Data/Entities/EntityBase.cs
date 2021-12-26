@@ -10,16 +10,8 @@ namespace RpiSmartMeter.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [Required]
-        [Column(TypeName = "datetime2(7)")]
-        public DateTime CreatedOnAt { get; set; }
-
-        [Required]
-        [Column(TypeName = "datetime2(7)")]
-        public DateTime UpdatedOnAt { get; set; }
-
-        [Required]
-        [Column(TypeName = "timestamp")]
-        public Byte[] RowVersion { get; set; }
+        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
+        [ConcurrencyCheck]
+        public DateTime RowVersion { get; set; }
     }
 }

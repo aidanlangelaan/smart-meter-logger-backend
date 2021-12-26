@@ -5,10 +5,10 @@ using RpiSmartMeter.Data.Enums;
 
 namespace RpiSmartMeter.Data.Entities
 {
-    public class GasUsage : EntityBase
+    public class GasUsage : AuditableEntity
     {
         [Required]
-        [Column(TypeName = "datetime2(7)")]
+        [Column(TypeName = "datetime")]
         public DateTime Timestamp { get; set; }
 
         [Required]
