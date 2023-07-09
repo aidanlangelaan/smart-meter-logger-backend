@@ -2,7 +2,7 @@
 
 namespace RpiSmartMeter.Business.configurations
 {
-    public class MeterMapperProfile : Profile
+    public class TelegramMapperProfile : Profile
     {
     }
 }

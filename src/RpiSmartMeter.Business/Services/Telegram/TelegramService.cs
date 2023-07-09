@@ -5,20 +5,21 @@ using System.Threading.Tasks;
 
 namespace RpiSmartMeter.Business.Services
 {
-    public class UsageService : IUsageService
+    public class TelegramService : ITelegramService
     {
         private readonly SmartMeterDbContext _context;
 
-        public UsageService(SmartMeterDbContext context)
+        public TelegramService(SmartMeterDbContext context)
         {
             _context = context;
         }
 
-        public async Task<CreateUsageDTO> CreateUsage(CreateUsageDTO model)
+        public async Task<GetTelegramDTO> Create(CreateTelegramDTO model)
         {
-
-
-            return model;
+            /// TODO: map to entities
+            /// Save to DB
+            /// Return some sort of value
+            return default;
         }
     }
 }

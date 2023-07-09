@@ -9,6 +9,8 @@ using RpiSmartMeter.Data;
 using System;
 using System.IO;
 using System.Reflection;
+using RpiSmartMeter.Api.Configurations;
+using RpiSmartMeter.Business.configurations;
 
 namespace RpiSmartMeter.Api
 {
@@ -31,16 +33,18 @@ namespace RpiSmartMeter.Api
 
             services.AddControllers();
 
-            services.AddAutoMapper(typeof(Startup));
-
-            AddSwagger(services);
-
             services.AddHsts(options => options.MaxAge = TimeSpan.FromDays(365));
 
             services.Configure<IISServerOptions>(options =>
             {
                 options.AutomaticAuthentication = false;
             });
+            
+            services.SetupFluentValidation();
+
+            services.AddAutoMapper(typeof(TelegramViewModelMapperProfile), typeof(TelegramMapperProfile));
+
+            AddSwagger(services);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -54,6 +58,10 @@ namespace RpiSmartMeter.Api
                     .AllowAnyHeader()
                     .Build());
             }
+            else
+            {
+                app.UseHsts();
+            }
 
             app.UseHttpsRedirection();
 
@@ -65,6 +73,12 @@ namespace RpiSmartMeter.Api
             {
                 endpoints.MapControllers();
             });
+            
+            app.UseSwagger();
+            app.UseSwaggerUI(c =>
+            {
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "RPI Smart Meter Logger - API");
+            });
         }
 
         private static void AddSwagger(IServiceCollection services)
@@ -74,13 +88,13 @@ namespace RpiSmartMeter.Api
                 options.SwaggerDoc("v1", new OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "Raspberrypi Smartmeter Reader API",
-                    Description = "Web API for registering and displaying the logs sent by the Raspberrypi Smartmeter Logger.",
+                    Title = "RPI Smart Meter Logger - API",
+                    Description = "Web API for registering and returning the logs sent by the RPI Smart Meter Logger.",
                     Contact = new OpenApiContact
                     {
                         Name = "Aidan Langelaan",
                         Email = "aidan@langelaan.pro",
-                        Url = new Uri("https://twitter.com/aidanlangelaan")
+                        Url = new Uri("https://www.aidanlangelaan.nl")
                     },
                 });
 

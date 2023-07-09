@@ -3,8 +3,8 @@ using RpiSmartMeter.Business.Models;
 
 namespace RpiSmartMeter.Business.Interfaces
 {
-    public interface IUsageService
+    public interface ITelegramService
     {
-        public Task<CreateUsageDTO> CreateUsage(CreateUsageDTO model);
+        public Task<GetTelegramDTO> Create(CreateTelegramDTO model);
     }
 }

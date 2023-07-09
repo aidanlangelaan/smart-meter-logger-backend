@@ -4,7 +4,7 @@ using System.Text;
 
 namespace RpiSmartMeter.Business.Models
 {
-    public class CreateUsageDTO
+    public class GetTelegramDTO
     {
 
     }

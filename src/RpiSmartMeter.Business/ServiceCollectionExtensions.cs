@@ -8,7 +8,7 @@ namespace RpiSmartMeter.Business
     {
         public static IServiceCollection ConfigureApplicationServices(this IServiceCollection services)
         {
-            services.AddTransient<IUsageService, UsageService>();
+            services.AddTransient<ITelegramService, TelegramService>();
 
             return services;
         }

@@ -4,18 +4,17 @@ using RpiSmartMeter.Business.Models;
 
 namespace RpiSmartMeter.Api.Configurations
 {
-    public class UsageViewModelMapperProfile : Profile
+    public class TelegramViewModelMapperProfile : Profile
     {
-        public UsageViewModelMapperProfile()
+        public TelegramViewModelMapperProfile()
         {
             CreateViewModelMapping();
         }
 
         private void CreateViewModelMapping()
         {
-            CreateMap<CreateUsageViewModel, CreateUsageDTO>();
-
-            CreateMap<GetUsageDTO, GetUsageViewModel>();
+            CreateMap<CreateTelegramViewModel, CreateTelegramDTO>();
+            CreateMap<GetTelegramDTO, GetTelegramViewModel>();
         }
     }
 }
