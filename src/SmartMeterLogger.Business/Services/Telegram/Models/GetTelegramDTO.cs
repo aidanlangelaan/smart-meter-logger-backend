@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿namespace SmartMeterLogger.Business.Models;
 
-namespace SmartMeterLogger.Business.Models
+public class GetTelegramDTO
 {
-    public class GetTelegramDTO
-    {
-
-    }
+    public GetElectricityUsageDTO ElectricityUsage { get; set; }
+    
+    public GetGasUsageDTO GasUsage { get; set; }
 }

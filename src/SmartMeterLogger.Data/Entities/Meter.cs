@@ -7,16 +7,14 @@ namespace SmartMeterLogger.Data.Entities
 {
     public class Meter : AuditableEntity
     {
-        [Required]
-        [Column(TypeName = "varchar(255)")]
-        public string SerialNumber { get; set; }
-
         [Column(TypeName = "tinyint")]
         public MeterType DeviceType { get; set; }
+        
+        [Required]
+        [Column(TypeName = "varchar(34)")]
+        public string SerialNumber { get; set; }
 
         // Relations
-        public List<ElectricityUsage> ElectricityUsages { get; set; }
-
-        public List<GasUsage> GasUsages { get; set; }
+        public ElectricityMeter ElectricityMeter { get; set; }
     }
 }

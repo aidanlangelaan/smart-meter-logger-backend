@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SmartMeterLogger.Data.Enums
+﻿namespace SmartMeterLogger.Data.Enums
 {
     public enum TariffIndicator
     {

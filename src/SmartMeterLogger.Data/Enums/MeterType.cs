@@ -7,6 +7,7 @@ namespace SmartMeterLogger.Data.Enums
     public enum MeterType
     {
         Electricity = 1,
-        Gas = 3
+        Water = 2,
+        Gas = 3,
     }
 }

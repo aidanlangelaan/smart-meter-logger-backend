@@ -1,7 +1,8 @@
-﻿namespace SmartMeterLogger.Api.Models
+﻿namespace SmartMeterLogger.Api.Models;
+
+public class GetTelegramViewModel
 {
-    public class GetTelegramViewModel
-    {
-        public int Id { get; set; }
-    }
+    public GetElectricityUsageViewModel ElectricityUsage { get; set; }
+
+    public GetGasUsageViewModel GasUsage { get; set; }
 }

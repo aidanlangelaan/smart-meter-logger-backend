@@ -10,8 +10,8 @@ namespace SmartMeterLogger.Data.Entities
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        [DatabaseGenerated(DatabaseGeneratedOption.Computed)]
         [ConcurrencyCheck]
+        [Column(TypeName = "datetime")]
         public DateTime RowVersion { get; set; }
     }
 }

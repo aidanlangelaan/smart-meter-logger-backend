@@ -12,97 +12,95 @@ using System.Reflection;
 using SmartMeterLogger.Api.Configurations;
 using SmartMeterLogger.Business.configurations;
 
-namespace SmartMeterLogger.Api
+namespace SmartMeterLogger.Api;
+
+public class Startup
 {
-    public class Startup
+    public Startup(IConfiguration configuration)
     {
-        public Startup(IConfiguration configuration)
+        Configuration = configuration;
+    }
+
+    public IConfiguration Configuration { get; }
+
+    // This method gets called by the runtime. Use this method to add services to the container.
+    public void ConfigureServices(IServiceCollection services)
+    {
+        // Setup dependency injection
+        services.ConfigureDataServices(Configuration["ConnectionStrings:SmartMeterLoggerContext"])
+            .ConfigureApplicationServices()
+            .ConfigureApiServices();
+
+        services.AddControllers();
+
+        services.AddHsts(options => options.MaxAge = TimeSpan.FromDays(365));
+
+        services.Configure<IISServerOptions>(options =>
         {
-            Configuration = configuration;
-        }
-
-        public IConfiguration Configuration { get; }
-
-        // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
-        {
-            // Setup dependency injection
-            services.ConfigureDataServices(Configuration["ConnectionStrings:SmartMeterContext"])
-                .ConfigureApplicationServices()
-                .ConfigureApiServices();
-
-            services.AddControllers();
-
-            services.AddHsts(options => options.MaxAge = TimeSpan.FromDays(365));
-
-            services.Configure<IISServerOptions>(options =>
-            {
-                options.AutomaticAuthentication = false;
-            });
+            options.AutomaticAuthentication = false;
+        });
             
-            services.SetupFluentValidation();
+        services.SetupFluentValidation();
 
-            services.AddAutoMapper(typeof(TelegramViewModelMapperProfile), typeof(TelegramMapperProfile));
+        services.AddAutoMapper(typeof(TelegramViewModelMapperProfile), typeof(EntityMapperProfile));
 
-            AddSwagger(services);
+        AddSwagger(services);
+    }
+
+    // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+    public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+    {
+        if (env.IsDevelopment())
+        {
+            app.UseDeveloperExceptionPage();
+            app.UseCors(options => options.AllowAnyMethod()
+                .AllowAnyOrigin()
+                .AllowAnyHeader()
+                .Build());
+        }
+        else
+        {
+            app.UseHsts();
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        app.UseHttpsRedirection();
+
+        app.UseRouting();
+
+        app.UseAuthorization();
+
+        app.UseEndpoints(endpoints =>
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseCors(options => options.AllowAnyMethod()
-                    .AllowAnyOrigin()
-                    .AllowAnyHeader()
-                    .Build());
-            }
-            else
-            {
-                app.UseHsts();
-            }
-
-            app.UseHttpsRedirection();
-
-            app.UseRouting();
-
-            app.UseAuthorization();
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-            });
+            endpoints.MapControllers();
+        });
             
-            app.UseSwagger();
-            app.UseSwaggerUI(c =>
-            {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "RPI Smart Meter Logger - API");
-            });
-        }
-
-        private static void AddSwagger(IServiceCollection services)
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
         {
-            services.AddSwaggerGen(options =>
+            c.SwaggerEndpoint("/swagger/v1/swagger.json", "RPI Smart Meter Logger - API");
+        });
+    }
+
+    private static void AddSwagger(IServiceCollection services)
+    {
+        services.AddSwaggerGen(options =>
+        {
+            options.SwaggerDoc("v1", new OpenApiInfo
             {
-                options.SwaggerDoc("v1", new OpenApiInfo
+                Version = "v1",
+                Title = "Smart Meter Logger - API",
+                Description = "Web API for registering and returning the logs sent by the Smart Meter Logger.",
+                Contact = new OpenApiContact
                 {
-                    Version = "v1",
-                    Title = "RPI Smart Meter Logger - API",
-                    Description = "Web API for registering and returning the logs sent by the RPI Smart Meter Logger.",
-                    Contact = new OpenApiContact
-                    {
-                        Name = "Aidan Langelaan",
-                        Email = "aidan@langelaan.pro",
-                        Url = new Uri("https://www.aidanlangelaan.nl")
-                    },
-                });
-
-                // Set the comments path for the Swagger JSON and UI.
-                var xmlFile = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
-                var xmlPath = Path.Combine(AppContext.BaseDirectory, "Properties", xmlFile);
-                options.IncludeXmlComments(xmlPath);
+                    Name = "Aidan Langelaan",
+                    Email = "aidan@langelaan.pro",
+                    Url = new Uri("https://www.aidanlangelaan.nl")
+                },
             });
-        }
+
+            // Set the comments path for the Swagger JSON and UI.
+            var xmlFilename = $"{Assembly.GetExecutingAssembly().GetName().Name}.xml";
+            options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
+        });
     }
 }
