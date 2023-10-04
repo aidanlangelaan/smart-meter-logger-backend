@@ -1,7 +1,5 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SmartMeterLogger.Data.Entities;
 
 namespace SmartMeterLogger.Data
@@ -19,51 +17,6 @@ namespace SmartMeterLogger.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // TODO: nog happy with this as it is...
-            // modelBuilder.Entity<ElectricityUsage>(entity =>
-            // {
-            //     // entity.Property(e => e.CreatedOnAt).ValueGeneratedOnAdd();
-            //     // entity.Property(e => e.UpdatedOnAt).ValueGeneratedOnAddOrUpdate();
-            //     // entity.Property(e => e.RowVersion).ValueGeneratedOnAddOrUpdate()
-            //     //     .HasPrecision(3)
-            //     //     .HasConversion<DateTime>(s => new DateTime(s), date => date.Ticks)
-            //     //     .HasDefaultValueSql("current_timestamp(3) ON UPDATE current_timestamp(3)");
-            //
-            //     entity.Property(e => e.RowVersion)
-            //         .HasConversion<DateTime>(s => new DateTime(s), date => date.Ticks);
-            // });
-            //
-            // modelBuilder.Entity<GasUsage>(entity =>
-            // {
-            //     // entity.Property(e => e.CreatedOnAt).ValueGeneratedOnAdd();
-            //     // entity.Property(e => e.UpdatedOnAt).ValueGeneratedOnAddOrUpdate();
-            //     
-            //     entity.Property(e => e.RowVersion)
-            //         .HasConversion<DateTime>(s => new DateTime(s), date => date.Ticks);
-            // });
-            //
-            // modelBuilder.Entity<Meter>(entity =>
-            // {
-            //     // entity.Property(e => e.CreatedOnAt).ValueGeneratedOnAdd();
-            //     // entity.Property(e => e.UpdatedOnAt).ValueGeneratedOnAddOrUpdate();
-            //     
-            //     entity.Property(e => e.RowVersion)
-            //         .HasConversion<DateTime>(s => new DateTime(s), date => date.Ticks);
-            // });
-            //
-            // modelBuilder.Entity<ElectricityMeter>(entity =>
-            // {
-            //     // entity.Property(e => e.CreatedOnAt).ValueGeneratedOnAdd();
-            //     // entity.Property(e => e.UpdatedOnAt).ValueGeneratedOnAddOrUpdate();
-            //     // entity.Property(e => e.RowVersion)
-            //     //     .ValueGeneratedOnAddOrUpdate()
-            //     //     .HasPrecision(3)
-            //     //     .HasConversion(s => new DateTime(s), date => date.Ticks)
-            //     //     .HasDefaultValueSql("current_timestamp(3) ON UPDATE current_timestamp(3)");
-            //     
-            //     entity.Property(e => e.RowVersion)
-            //         .HasConversion<DateTime>(s => new DateTime(s), date => date.Ticks);
-            // });
-
             // setup auditable and concurrency properties
             foreach (var entityType in modelBuilder.Model.GetEntityTypes())
             {
