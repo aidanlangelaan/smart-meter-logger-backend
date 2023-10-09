@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartMeterLogger.Data", "Sm
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SmartMeterLogger.Business", "SmartMeterLogger.Business\SmartMeterLogger.Business.csproj", "{89DD7415-429B-432F-A3B8-520610F2F64B}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Publish", "Publish", "{DC349926-843D-48C7-B8FE-11729415B260}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -1,25 +1,24 @@
-#See https://aka.ms/containerfastmode to understand how Visual Studio uses this Dockerfile to build your images for faster debugging.
-
-#Depending on the operating system of the host machines(s) that will build or run the containers, the image specified in the FROM statement may need to be changed.
-#For more information, please see https://aka.ms/containercompat
-
-FROM mcr.microsoft.com/dotnet/core/aspnet:3.1-nanoserver-1903 AS base
+﻿FROM mcr.microsoft.com/dotnet/sdk:7.0 AS build
 WORKDIR /app
-EXPOSE 80
-EXPOSE 443
 
-FROM mcr.microsoft.com/dotnet/core/sdk:3.1-nanoserver-1903 AS build
-WORKDIR /src
-COPY ["RpiSmartMeter.Api/RpiSmartMeter.Api.csproj", "RpiSmartMeter.Api/"]
-RUN dotnet restore "RpiSmartMeter.Api/RpiSmartMeter.Api.csproj"
-COPY . .
-WORKDIR "/src/RpiSmartMeter.Api"
-RUN dotnet build "RpiSmartMeter.Api.csproj" -c Release -o /app/build
+# Copy csproj and restore as distinct layers
+COPY ["SmartMeterLogger.sln", "."]
+COPY ["./SmartMeterLogger.Api/*.csproj", "./SmartMeterLogger.Api/"]
+COPY ["./SmartMeterLogger.Business/*.csproj", "./SmartMeterLogger.Business/"]
+COPY ["./SmartMeterLogger.Data/*.csproj", "./SmartMeterLogger.Data/"]
 
-FROM build AS publish
-RUN dotnet publish "RpiSmartMeter.Api.csproj" -c Release -o /app/publish
+RUN dotnet restore
 
-FROM base AS final
+# copy everything else and build app
+COPY ["./SmartMeterLogger.Api/.", "./SmartMeterLogger.Api/"]
+COPY ["./SmartMeterLogger.Business/.", "./SmartMeterLogger.Business/"]
+COPY ["./SmartMeterLogger.Data/.", "./SmartMeterLogger.Data/"]
+
+WORKDIR /app/SmartMeterLogger.Api
+RUN dotnet publish -c Release -o /app/publish
+
+FROM mcr.microsoft.com/dotnet/aspnet:7.0 AS runtime
 WORKDIR /app
-COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "RpiSmartMeter.Api.dll"]
+
+COPY --from=build /app/publish ./
+ENTRYPOINT ["dotnet", "SmartMeterLogger.Api.dll"]
