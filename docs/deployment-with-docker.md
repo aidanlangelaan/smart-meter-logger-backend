@@ -129,7 +129,13 @@ Currently the application does not use any persistant data so no need to setup a
 | Source      | Enable HSTS | Yes                             |
 | Destination | Protocol    | HTTP                            |
 | Destination | Hostname    | localhost                       |
-| Destination | Port        | 5001                            |
+| Destination | Port        | 9500                            |
+
+### Custom network
+
+For the application to connect to the MySQL database, we need to make sure they are both on the same network. I.e. host with non-blocking ports OR a custom bridge network. I've chosen to use the custom-bridge network option which I can also use for other projects.
+
+As for the connectionstring, you can use the database container name as host this way.
 
 ### Deploy image
 
@@ -152,7 +158,8 @@ Currently the application does not use any persistant data so no need to setup a
         docker run -d --name=smartmeter-logger-api \
         -e ASPNETCORE_ENVIRONMENT='{ENVIRONMENT}' \
         -e MYSQLCONNSTR_SmartMeterLoggerContext='{CONNECTIONSTRING}' \
-        -p 5001:80 \
+        -p 9500:80 \
+        --net=custom-bridge
         --restart=always \
         docker.nas.local/smartmeter-logger-api:latest
 
