@@ -21,6 +21,8 @@ Therefore I'm planning on the following:
 - Implement a .NET background service that subscribes to the MQTT broker (using MQTTnet) to retrieve the published data and store it in the database
 - Alter the smart-meter-logger-backend so that it no longer is used for storing the rpi-smart-meter-logger data
 
+![v2](docs/images/v2.png)
+
 ## Other documentation
 
 - [Database manipulation](docs/database-manipulation.md)
