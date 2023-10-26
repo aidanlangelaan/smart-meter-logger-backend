@@ -74,7 +74,7 @@ public class TelegramController : ControllerBase
     [ProducesResponseType(typeof(List<GetTelegramViewModel>), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> CreateMany(IEnumerable<CreateTelegramViewModel> model)
+    public async Task<IActionResult> CreateMany([FromBody]IEnumerable<CreateTelegramViewModel> model)
     {
         var createTelegramDtos = _mapper.Map<IEnumerable<CreateTelegramDTO>>(model);
         var result = await _telegramService.CreateMany(createTelegramDtos);
@@ -131,7 +131,7 @@ public class TelegramController : ControllerBase
     [ProducesResponseType(typeof(GetTelegramViewModel), StatusCodes.Status201Created)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Create(CreateTelegramViewModel model)
+    public async Task<IActionResult> Create([FromBody]CreateTelegramViewModel model)
     {
         var createTelegramDto = _mapper.Map<CreateTelegramDTO>(model);
         var result = await _telegramService.Create(createTelegramDto);
