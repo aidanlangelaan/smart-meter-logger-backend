@@ -9,6 +9,7 @@ using SmartMeterLogger.Data;
 using System;
 using System.IO;
 using System.Reflection;
+using Microsoft.AspNetCore.Mvc;
 using SmartMeterLogger.Api.Configurations;
 using SmartMeterLogger.Business.configurations;
 
@@ -39,7 +40,8 @@ public class Startup
         {
             options.AutomaticAuthentication = false;
         });
-            
+           
+        services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
         services.SetupFluentValidation();
 
         services.AddAutoMapper(typeof(TelegramViewModelMapperProfile), typeof(EntityMapperProfile));

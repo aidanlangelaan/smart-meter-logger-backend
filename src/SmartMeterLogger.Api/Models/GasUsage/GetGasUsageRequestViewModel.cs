@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace SmartMeterLogger.Api.Models;
 
-public class GetElectricityUsageRequestViewModel
+public class GetGasUsageRequestViewModel
 {
     [FromRoute]
     public string SerialNumber { get; set; }

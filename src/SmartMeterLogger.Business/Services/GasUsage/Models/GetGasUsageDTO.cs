@@ -11,4 +11,6 @@ public class GetGasUsageDTO
     public int MeterId { get; set; }
 
     public float TotalDelivery { get; set; }
+    
+    public decimal DeltaTotalDelivery { get; set; }
 }

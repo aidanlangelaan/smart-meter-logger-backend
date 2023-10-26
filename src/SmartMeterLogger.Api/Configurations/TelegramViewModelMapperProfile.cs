@@ -30,7 +30,7 @@ public class TelegramViewModelMapperProfile : Profile
 
     private void CreateGasUsageMappings()
     {
-        // CreateMap<GetGasUsageRequestViewModel, GetGasUsageRequestDTO>();
+        CreateMap<GetGasUsageRequestViewModel, GetGasUsageRequestDTO>();
         CreateMap<GetGasUsageDTO, GetGasUsageViewModel>();
     }
 

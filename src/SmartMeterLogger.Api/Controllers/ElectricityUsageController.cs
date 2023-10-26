@@ -22,7 +22,7 @@ public class ElectricityUsageController : ControllerBase
     private readonly IElectricityUsageService _electricityUsageService;
 
     /// <summary>
-    ///    TelegramController
+    ///    ElectricityUsageController
     /// </summary>
     /// <param name="mapper"></param>
     /// <param name="electricityUsageService"></param>
@@ -44,13 +44,15 @@ public class ElectricityUsageController : ControllerBase
     /// <returns>List of electricity usages</returns>
     /// <response code="200">Electricity usages have been retrieved</response>
     /// <response code="400">Failed to process request</response>
+    /// <response code="500">Something went wrong while retrieving the electricity usages</response>
     [HttpGet("{serialNumber}")]
     [ProducesResponseType(typeof(IEnumerable<GetElectricityUsageViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
-    public async Task<IActionResult> Get([FromRoute] string serialNumber, [FromQuery]GetElectricityUsageRequestViewModel model)
+    [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> Get(GetElectricityUsageRequestViewModel model)
     {
         var dto = _mapper.Map<GetElectricityUsageRequestDTO>(model);
-        var electricityUsages = await _electricityUsageService.GetAll(serialNumber, dto);
+        var electricityUsages = await _electricityUsageService.GetAll(model.SerialNumber, dto);
         return Ok(electricityUsages);
     }
 
@@ -67,10 +69,12 @@ public class ElectricityUsageController : ControllerBase
     /// <response code="200">Electricity usage for given id has been retrieved</response>
     /// <response code="404">Electricity usage not found for given id</response>
     /// <response code="400">Failed to process request</response>
+    /// <response code="500">Something went wrong while retrieving the electricity usage</response>
     [HttpGet("{serialNumber}/{id:int}")]
     [ProducesResponseType(typeof(GetElectricityUsageViewModel), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(string serialNumber, int id)
     {
         var electricityUsage = await _electricityUsageService.GetById(serialNumber, id);

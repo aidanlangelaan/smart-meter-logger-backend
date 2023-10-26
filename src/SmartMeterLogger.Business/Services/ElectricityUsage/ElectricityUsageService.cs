@@ -50,9 +50,11 @@ public class ElectricityUsageService : IElectricityUsageService
         return _mapper.Map<List<GetElectricityUsageDTO>>(electricityUsages);
     }
 
-    public async Task<GetElectricityUsageDTO> GetById(string meterId, int usageId)
+    public async Task<GetElectricityUsageDTO> GetById(string serialNumber, int usageId)
     {
-        var electricityUsage = await _context.ElectricityUsages.FirstOrDefaultAsync(t => t.Id == usageId);
+        var electricityUsage = await _context.ElectricityUsages
+            .Include(u => u.Meter)
+            .FirstOrDefaultAsync(u => u.Meter.SerialNumber == serialNumber && u.Id == usageId);
         return _mapper.Map<GetElectricityUsageDTO>(electricityUsage);
     }
 }

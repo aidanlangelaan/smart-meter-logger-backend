@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using SmartMeterLogger.Data;
 using SmartMeterLogger.Business.Interfaces;
 using SmartMeterLogger.Business.Models;
@@ -80,8 +81,35 @@ namespace SmartMeterLogger.Business.Services
                 electricityMeter.ElectricityMeter = _mapper.Map<ElectricityMeter>(model);
             }
 
+            var lastUsage = await _context.ElectricityUsages
+                .OrderByDescending(u => u.Id)
+                .FirstOrDefaultAsync();
+
             var electricityUsage = _mapper.Map<ElectricityUsage>(model);
             electricityUsage.Meter = electricityMeter;
+
+            if (lastUsage != null)
+            {
+                electricityUsage.DeltaActualBackdelivery = electricityUsage.ActualBackdelivery - lastUsage.ActualBackdelivery;
+                electricityUsage.DeltaActualDelivery = electricityUsage.ActualDelivery - lastUsage.ActualDelivery;
+                electricityUsage.DeltaActPowerL1 = electricityUsage.ActPowerL1 - lastUsage.ActPowerL1;
+                electricityUsage.DeltaActPowerL2 = electricityUsage.ActPowerL2 ?? 0 - lastUsage.ActPowerL2 ?? 0;
+                electricityUsage.DeltaActPowerL3 = electricityUsage.ActPowerL3 ?? 0 - lastUsage.ActPowerL3 ?? 0;
+                electricityUsage.DeltaCurrentL1 = electricityUsage.CurrentL1 - lastUsage.CurrentL1;
+                electricityUsage.DeltaCurrentL2 = electricityUsage.CurrentL2 ?? 0 - lastUsage.CurrentL2 ?? 0;
+                electricityUsage.DeltaCurrentL3 = electricityUsage.CurrentL3 ?? 0 - lastUsage.CurrentL3 ?? 0;
+                electricityUsage.DeltaVoltageL1 = electricityUsage.VoltageL1 - lastUsage.VoltageL1;
+                electricityUsage.DeltaVoltageL2 = electricityUsage.VoltageL2 ?? 0 - lastUsage.VoltageL2 ?? 0;
+                electricityUsage.DeltaVoltageL3 = electricityUsage.VoltageL3 ?? 0 - lastUsage.VoltageL3 ?? 0;
+                electricityUsage.DeltaTotalBackdeliveryHigh = electricityUsage.TotalBackdeliveryHigh - lastUsage.TotalBackdeliveryHigh;
+                electricityUsage.DeltaTotalBackdeliveryLow = electricityUsage.TotalBackdeliveryLow - lastUsage.TotalBackdeliveryLow;
+                electricityUsage.DeltaTotalDeliveryHigh = electricityUsage.TotalDeliveryHigh - lastUsage.TotalDeliveryHigh;
+                electricityUsage.DeltaTotalDeliveryLow = electricityUsage.TotalDeliveryLow - lastUsage.TotalDeliveryLow;
+                electricityUsage.DeltaActPowerBackdeliveryL1 = electricityUsage.ActPowerBackdeliveryL1 - lastUsage.ActPowerBackdeliveryL1;
+                electricityUsage.DeltaActPowerBackdeliveryL2 = electricityUsage.ActPowerBackdeliveryL2 ?? 0 - lastUsage.ActPowerBackdeliveryL2 ?? 0;
+                electricityUsage.DeltaActPowerBackdeliveryL3 = electricityUsage.ActPowerBackdeliveryL3 ?? 0 - lastUsage.ActPowerBackdeliveryL3 ?? 0;
+            }
+
             _context.ElectricityUsages.Add(electricityUsage);
             return electricityUsage;
         }
@@ -110,6 +138,16 @@ namespace SmartMeterLogger.Business.Services
                     TotalDelivery = gasMeterData.Value.MeterValue,
                     Meter = gasMeter
                 };
+                
+                var lastUsage = await _context.GasUsages
+                    .OrderByDescending(u => u.Id)
+                    .FirstOrDefaultAsync();
+
+                if (lastUsage != null)
+                {
+                    gasUsage.DeltaTotalDelivery = gasUsage.TotalDelivery - lastUsage.TotalDelivery;   
+                }
+                
                 _context.GasUsages.Add(gasUsage);
             }
 

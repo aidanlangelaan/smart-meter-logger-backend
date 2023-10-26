@@ -16,6 +16,10 @@ namespace SmartMeterLogger.Data.Entities
 
         [Column(TypeName = "decimal(10,3)")]
         public decimal TotalDelivery { get; set; }
+        
+        [Required]
+        [Column(TypeName = "decimal(10,3)")]
+        public decimal DeltaTotalDelivery { get; set; }
 
         // Foreign keys
         [ForeignKey("MeterId")]

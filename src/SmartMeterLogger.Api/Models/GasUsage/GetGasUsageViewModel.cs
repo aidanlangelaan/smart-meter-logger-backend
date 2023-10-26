@@ -11,4 +11,6 @@ public class GetGasUsageViewModel
     public int MeterId { get; set; }
 
     public decimal TotalDelivery { get; set; }
+    
+    public decimal DeltaTotalDelivery { get; set; }
 }
