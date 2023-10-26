@@ -24,11 +24,13 @@ public class TelegramViewModelMapperProfile : Profile
 
     private void CreateElectricityUsageMappings()
     {
+        CreateMap<GetElectricityUsageRequestViewModel, GetElectricityUsageRequestDTO>();
         CreateMap<GetElectricityUsageDTO, GetElectricityUsageViewModel>();
     }
 
     private void CreateGasUsageMappings()
     {
+        // CreateMap<GetGasUsageRequestViewModel, GetGasUsageRequestDTO>();
         CreateMap<GetGasUsageDTO, GetGasUsageViewModel>();
     }
 

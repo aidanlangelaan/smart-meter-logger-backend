@@ -41,7 +41,7 @@ public class TelegramController : ControllerBase
         }
         
         var getTelegramViewModels = _mapper.Map<List<GetTelegramViewModel>>(result);
-        return Ok(getTelegramViewModels);
+        return CreatedAtAction(nameof(CreateMany), getTelegramViewModels);
     }
         
     [HttpPost("create")]
@@ -56,6 +56,6 @@ public class TelegramController : ControllerBase
         }
         
         var getTelegramViewModel = _mapper.Map<GetTelegramViewModel>(result);
-        return Ok(getTelegramViewModel);
+        return CreatedAtAction(nameof(Create), getTelegramViewModel);
     }
 }
