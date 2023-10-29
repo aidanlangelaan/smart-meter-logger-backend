@@ -6,10 +6,10 @@ public class GetGasUsageRequestViewModelValidator : AbstractValidator<GetGasUsag
 {
     public GetGasUsageRequestViewModelValidator()
     {
-        RuleFor(model => model.SerialNumber)
-            .NotEmpty()
-            .Length(34)
-            .Matches("^[0-9]*$");
+        // RuleFor(model => model.SerialNumber)
+        //     .NotEmpty()
+        //     .Length(34)
+        //     .Matches("^[0-9]*$");
         
         RuleFor(model => model.pageSize).GreaterThan(0);
     }

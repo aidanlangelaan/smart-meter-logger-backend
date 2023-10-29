@@ -10,6 +10,7 @@ namespace SmartMeterLogger.Business
         {
             services.AddTransient<IElectricityUsageService, ElectricityUsageService>();
             services.AddTransient<IGasUsageService, GasUsageService>();
+            services.AddTransient<IMeterService, MeterService>();
             services.AddTransient<ITelegramService, TelegramService>();
 
             return services;

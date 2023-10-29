@@ -41,7 +41,7 @@ public class Startup
             options.AutomaticAuthentication = false;
         });
            
-        services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
+        // services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
         services.SetupFluentValidation();
 
         services.AddAutoMapper(typeof(TelegramViewModelMapperProfile), typeof(EntityMapperProfile));

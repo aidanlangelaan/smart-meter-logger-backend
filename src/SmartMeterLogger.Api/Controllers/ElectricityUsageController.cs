@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -7,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartMeterLogger.Api.Models;
 using SmartMeterLogger.Business.Interfaces;
 using SmartMeterLogger.Business.Models;
+using SmartMeterLogger.Data.Enums;
 
 namespace SmartMeterLogger.Api.Controllers;
 
@@ -20,16 +20,19 @@ public class ElectricityUsageController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IElectricityUsageService _electricityUsageService;
+    private readonly IMeterService _meterService;
 
     /// <summary>
     ///    ElectricityUsageController
     /// </summary>
     /// <param name="mapper"></param>
     /// <param name="electricityUsageService"></param>
-    public ElectricityUsageController(IMapper mapper, IElectricityUsageService electricityUsageService)
+    public ElectricityUsageController(IMapper mapper, IElectricityUsageService electricityUsageService,
+        IMeterService meterService)
     {
         _mapper = mapper;
         _electricityUsageService = electricityUsageService;
+        _meterService = meterService;
     }
 
     /// <summary>
@@ -49,10 +52,16 @@ public class ElectricityUsageController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<GetElectricityUsageViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Get(GetElectricityUsageRequestViewModel model)
+    public async Task<IActionResult> Get(string serialNumber, [FromQuery] GetElectricityUsageRequestViewModel model)
     {
+        var meter = await _meterService.GetBySerialNumber(serialNumber);
+        if (meter is not { DeviceType: MeterType.Electricity })
+        {
+            return BadRequest("Meter not found or is not a electricity meter");
+        }
+
         var dto = _mapper.Map<GetElectricityUsageRequestDTO>(model);
-        var electricityUsages = await _electricityUsageService.GetAll(model.SerialNumber, dto);
+        var electricityUsages = await _electricityUsageService.GetAll(serialNumber, dto);
         return Ok(electricityUsages);
     }
 
@@ -77,6 +86,12 @@ public class ElectricityUsageController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(string serialNumber, int id)
     {
+        var meter = await _meterService.GetBySerialNumber(serialNumber);
+        if (meter is not { DeviceType: MeterType.Electricity })
+        {
+            return BadRequest("Meter not found or is not a electricity meter");
+        }
+        
         var electricityUsage = await _electricityUsageService.GetById(serialNumber, id);
         if (electricityUsage != null)
         {

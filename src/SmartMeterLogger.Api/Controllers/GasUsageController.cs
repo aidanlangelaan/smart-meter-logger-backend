@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using SmartMeterLogger.Api.Models;
 using SmartMeterLogger.Business.Interfaces;
 using SmartMeterLogger.Business.Models;
+using SmartMeterLogger.Data.Enums;
 
 namespace SmartMeterLogger.Api.Controllers;
 
@@ -19,18 +20,21 @@ public class GasUsageController : ControllerBase
 {
     private readonly IMapper _mapper;
     private readonly IGasUsageService _gasUsageService;
+    private readonly IMeterService _meterService;
 
     /// <summary>
     ///    GasUsageController
     /// </summary>
     /// <param name="mapper"></param>
     /// <param name="gasUsageService"></param>
-    public GasUsageController(IMapper mapper, IGasUsageService gasUsageService)
+    /// <param name="meterService"></param>
+    public GasUsageController(IMapper mapper, IGasUsageService gasUsageService, IMeterService meterService)
     {
         _mapper = mapper;
         _gasUsageService = gasUsageService;
+        _meterService = meterService;
     }
-    
+
     /// <summary>
     /// Gets all gas usages for a specific meter
     /// </summary>
@@ -48,10 +52,16 @@ public class GasUsageController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<GetGasUsageViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Get(GetGasUsageRequestViewModel model)
+    public async Task<IActionResult> Get(string serialNumber, [FromQuery] GetGasUsageRequestViewModel model)
     {
+        var meter = await _meterService.GetBySerialNumber(serialNumber);
+        if (meter is not { DeviceType: MeterType.Gas })
+        {
+            return BadRequest("Meter not found or is not a gas meter");
+        }
+
         var dto = _mapper.Map<GetGasUsageRequestDTO>(model);
-        var gasUsages = await _gasUsageService.GetAll(model.SerialNumber, dto);
+        var gasUsages = await _gasUsageService.GetAll(serialNumber, dto);
         return Ok(gasUsages);
     }
 
@@ -76,6 +86,12 @@ public class GasUsageController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
     public async Task<IActionResult> Get(string serialNumber, int id)
     {
+        var meter = await _meterService.GetBySerialNumber(serialNumber);
+        if (meter is not { DeviceType: MeterType.Gas })
+        {
+            return BadRequest("Meter not found or is not a gas meter");
+        }
+        
         var gasUsage = await _gasUsageService.GetById(serialNumber, id);
         if (gasUsage != null)
         {

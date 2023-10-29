@@ -6,8 +6,8 @@ public class GetElectricityUsageRequestViewModelValidator : AbstractValidator<Ge
 {
     public GetElectricityUsageRequestViewModelValidator()
     {
-        RuleFor(model => model.SerialNumber)
-            .NotEmpty();
+        // RuleFor(model => model.SerialNumber)
+        //     .NotEmpty();
             // .Length(34)
             // .Matches("^[0-9]*$");
         
