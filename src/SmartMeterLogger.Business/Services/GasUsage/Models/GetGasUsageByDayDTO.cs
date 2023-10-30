@@ -1,14 +1,15 @@
 ﻿using System;
+using SmartMeterLogger.Data.Enums;
 
 namespace SmartMeterLogger.Business.Models;
 
-public class GetGasUsageDTO
+public class GetGasUsageByDayDTO
 {
-    public int Id { get; set; }
-    
     public DateTime Timestamp { get; set; }
 
     public int MeterId { get; set; }
+
+    public TariffIndicator TariffIndicator { get; set; }
 
     public decimal TotalDelivery { get; set; }
     

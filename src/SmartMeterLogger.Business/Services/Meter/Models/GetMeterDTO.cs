@@ -10,5 +10,5 @@ public class GetMeterDTO
 
     public MeterType DeviceType { get; set; }
         
-    public DSMRVersion DsmrVersion { get; set; }
+    public DSMRVersion? DsmrVersion { get; set; }
 }

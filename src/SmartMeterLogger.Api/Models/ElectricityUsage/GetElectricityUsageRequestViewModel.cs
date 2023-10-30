@@ -5,11 +5,11 @@ namespace SmartMeterLogger.Api.Models;
 
 public class GetElectricityUsageRequestViewModel
 {
-    public DateTime? from { get; set; }
-    
-    public DateTime? to  { get; set; }
-    
-    public int? pageSize { get; set; }
-    
-    public int? page  { get; set; }
+    public DateTime? From { get; set; }
+
+    public DateTime? To { get; set; }
+
+    public int? PageSize { get; set; }
+
+    public int? Page { get; set; }
 }

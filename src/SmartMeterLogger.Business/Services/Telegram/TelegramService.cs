@@ -23,7 +23,7 @@ namespace SmartMeterLogger.Business.Services
             _mapper = mapper;
         }
 
-        public async Task<List<GetTelegramDTO>> CreateMany(IEnumerable<CreateTelegramDTO> model)
+        public async Task<IEnumerable<GetTelegramDTO>> CreateMany(IEnumerable<CreateTelegramDTO> model)
         {
             var createdTelegrams = new List<GetTelegramDTO>();
 

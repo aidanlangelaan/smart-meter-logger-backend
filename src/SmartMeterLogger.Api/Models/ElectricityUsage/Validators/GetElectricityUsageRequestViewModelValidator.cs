@@ -11,6 +11,6 @@ public class GetElectricityUsageRequestViewModelValidator : AbstractValidator<Ge
             // .Length(34)
             // .Matches("^[0-9]*$");
         
-        RuleFor(model => model.pageSize).GreaterThan(0);
+        RuleFor(model => model.PageSize).GreaterThan(0);
     }
 }

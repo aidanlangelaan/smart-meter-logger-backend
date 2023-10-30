@@ -4,9 +4,9 @@ using SmartMeterLogger.Business.Models;
 
 namespace SmartMeterLogger.Api.Configurations;
 
-public class TelegramViewModelMapperProfile : Profile
+public class ViewModelMapperProfile : Profile
 {
-    public TelegramViewModelMapperProfile()
+    public ViewModelMapperProfile()
     {
         CreateViewModelMapping();
     }
@@ -26,12 +26,14 @@ public class TelegramViewModelMapperProfile : Profile
     {
         CreateMap<GetElectricityUsageRequestViewModel, GetElectricityUsageRequestDTO>();
         CreateMap<GetElectricityUsageDTO, GetElectricityUsageViewModel>();
+        CreateMap<GetElectricityUsageByDayDTO, GetElectricityUsageByDayViewModel>();
     }
 
     private void CreateGasUsageMappings()
     {
         CreateMap<GetGasUsageRequestViewModel, GetGasUsageRequestDTO>();
         CreateMap<GetGasUsageDTO, GetGasUsageViewModel>();
+        CreateMap<GetGasUsageByDayDTO, GetGasUsageByDayViewModel>();
     }
 
     private void CreateMeterUsageMappings()

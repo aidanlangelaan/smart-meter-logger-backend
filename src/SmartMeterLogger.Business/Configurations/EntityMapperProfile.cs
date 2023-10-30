@@ -26,16 +26,26 @@ public class EntityMapperProfile : Profile
     private void CreateElectricityUsageMappings()
     {
         CreateMap<ElectricityUsage, GetElectricityUsageDTO>();
+        CreateMap<ElectricityUsage, GetElectricityUsageByDayDTO>();
+        //CreateMap<ElectricityUsage, GetElectricityUsageByDayMonth>();
     }
     
     private void CreateGasUsageMappings()
     {
         CreateMap<GasUsage, GetGasUsageDTO>();
+        CreateMap<GasUsage, GetGasUsageByDayDTO>();
     }
     
     private void CreateMeterUsageMappings()
     {
-        CreateMap<Meter, GetMeterDTO>();
+        CreateMap<Meter, GetMeterDTO>()
+            .ForMember(dest => dest.DsmrVersion, 
+                opt =>
+                {
+                    opt.PreCondition(src => src.DeviceType == MeterType.Electricity);
+                    opt.MapFrom(src => src.ElectricityMeter.DsmrVersion);
+                });
+        CreateMap<ElectricityMeter, GetMeterDTO>();
     }
     
     private void CreateTelegramMappings()

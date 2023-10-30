@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using AutoMapper;
 using Microsoft.AspNetCore.Http;
@@ -52,7 +53,7 @@ public class GasUsageController : ControllerBase
     [ProducesResponseType(typeof(IEnumerable<GetGasUsageViewModel>), StatusCodes.Status200OK)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Get(string serialNumber, [FromQuery] GetGasUsageRequestViewModel model)
+    public async Task<IActionResult> GetAll(string serialNumber, [FromQuery] GetGasUsageRequestViewModel model)
     {
         var meter = await _meterService.GetBySerialNumber(serialNumber);
         if (meter is not { DeviceType: MeterType.Gas })
@@ -62,7 +63,7 @@ public class GasUsageController : ControllerBase
 
         var dto = _mapper.Map<GetGasUsageRequestDTO>(model);
         var gasUsages = await _gasUsageService.GetAll(serialNumber, dto);
-        return Ok(gasUsages);
+        return Ok(_mapper.Map<IEnumerable<GetGasUsageViewModel>>(gasUsages));
     }
 
     /// <summary>
@@ -74,7 +75,7 @@ public class GasUsageController : ControllerBase
     ///     GET /api/gasusage/4530303433303015985636353834373138/1
     ///
     /// </remarks>
-    /// <returns>A single transaction</returns>
+    /// <returns>A single usage</returns>
     /// <response code="200">Gas usage for given id has been retrieved</response>
     /// <response code="404">Gas usage not found for given id</response>
     /// <response code="400">Failed to process request</response>
@@ -84,7 +85,7 @@ public class GasUsageController : ControllerBase
     [ProducesResponseType(typeof(void), StatusCodes.Status404NotFound)]
     [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
     [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
-    public async Task<IActionResult> Get(string serialNumber, int id)
+    public async Task<IActionResult> GetById(string serialNumber, int id)
     {
         var meter = await _meterService.GetBySerialNumber(serialNumber);
         if (meter is not { DeviceType: MeterType.Gas })
@@ -95,9 +96,38 @@ public class GasUsageController : ControllerBase
         var gasUsage = await _gasUsageService.GetById(serialNumber, id);
         if (gasUsage != null)
         {
-            return Ok(gasUsage);
+            return Ok(_mapper.Map<GetGasUsageViewModel>(gasUsage));
         }
 
         return NotFound();
+    }
+    
+    /// <summary>
+    /// Gets gas usage by day for a specific meter
+    /// </summary>
+    /// <remarks>
+    /// Sample request:
+    ///
+    ///     GET /api/gasusage/4530303433303015985636353834373138/getbyday?date=2023-10-30
+    ///
+    /// </remarks>
+    /// <returns>A single usage</returns>
+    /// <response code="200">Gas usage for given date has been retrieved</response>
+    /// <response code="400">Failed to process request</response>
+    /// <response code="500">Something went wrong while retrieving the gas usage</response>
+    [HttpGet("{serialNumber}/getbyday")]
+    [ProducesResponseType(typeof(IEnumerable<GetGasUsageByDayViewModel>), StatusCodes.Status200OK)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status400BadRequest)]
+    [ProducesResponseType(typeof(void), StatusCodes.Status500InternalServerError)]
+    public async Task<IActionResult> GetByDay(string serialNumber, [FromQuery] DateTime date)
+    {
+        var meter = await _meterService.GetBySerialNumber(serialNumber);
+        if (meter is not { DeviceType: MeterType.Gas })
+        {
+            return BadRequest("Meter not found or is not a gas meter");
+        }
+        
+        var gasUsages = await _gasUsageService.GetByDate(serialNumber, date);
+        return Ok(_mapper.Map<IEnumerable<GetGasUsageByDayViewModel>>(gasUsages));
     }
 }

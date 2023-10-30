@@ -44,7 +44,7 @@ public class Startup
         // services.Configure<ApiBehaviorOptions>(options => options.SuppressInferBindingSourcesForParameters = true);
         services.SetupFluentValidation();
 
-        services.AddAutoMapper(typeof(TelegramViewModelMapperProfile), typeof(EntityMapperProfile));
+        services.AddAutoMapper(typeof(ViewModelMapperProfile), typeof(EntityMapperProfile));
 
         AddSwagger(services);
     }
@@ -52,7 +52,7 @@ public class Startup
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
-        if (env.IsDevelopment())
+        if (env.IsDevelopment() || env.IsStaging())
         {
             app.UseDeveloperExceptionPage();
             app.UseCors(options => options.AllowAnyMethod()
